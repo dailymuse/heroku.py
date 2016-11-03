@@ -12,11 +12,7 @@ from .structures import *
 import json
 import requests
 import sys
-
-if sys.version_info > (3, 0):
-    from urllib.parse import quote
-else:
-    from urllib.parse import quote
+from urllib.parse import quote
 
 
 class BaseResource(object):

@@ -118,7 +118,7 @@ class SSHKeyListResource(KeyedListResource):
 
 class FilteredListResource(KeyedListResource):
     filter_func = staticmethod(lambda item: True)
-    
+
     def __init__(self, items=None):
         items = [item for item in items if self.filter_func(item)] if items else []
         super(FilteredListResource, self).__init__(items)

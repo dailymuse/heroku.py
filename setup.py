@@ -21,15 +21,14 @@ required = [
 
 
 setup(
-    name='heroku',
+    name='herokupy3',
     version='0.1.3',
     description='Heroku API Wrapper.',
-    long_description=open('README.rst').read() + '\n\n' +
-                     open('HISTORY.rst').read(),
+    long_description=open('README.rst').read() + '\n\n' + open('HISTORY.rst').read(),
     author='Kenneth Reitz',
     author_email='kenneth@heroku.com',
     url='https://github.com/heroku/heroku.py',
-    packages=['heroku'],
+    packages=['herokupy3'],
     package_data={'': ['LICENSE',]},
     include_package_data=True,
     install_requires=required,

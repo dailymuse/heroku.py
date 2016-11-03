@@ -7,11 +7,11 @@ heroku.api
 This module provides the basic API interface for Heroku.
 """
 
-from .compat import json
+import json
+
 from .helpers import is_collection
 from .models import *
 from .structures import KeyedListResource
-from heroku.models import Feature
 from requests.exceptions import HTTPError
 import requests
 
