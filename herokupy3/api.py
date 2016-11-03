@@ -124,7 +124,7 @@ class HerokuCore(object):
         if map is None:
             map = KeyedListResource
 
-        list_resource = list(map(items=items))
+        list_resource = map(items=items)
         list_resource._h = self
         list_resource._obj = obj
         list_resource._kwargs = kwargs
