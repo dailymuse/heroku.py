@@ -16,7 +16,7 @@ import sys
 if sys.version_info > (3, 0):
     from urllib.parse import quote
 else:
-    from urllib import quote
+    from urllib.parse import quote
 
 
 class BaseResource(object):
@@ -69,7 +69,7 @@ class BaseResource(object):
 
     def dict(self):
         d = dict()
-        for k in self.keys():
+        for k in list(self.keys()):
             d[k] = self.__dict__.get(k)
 
         return d
