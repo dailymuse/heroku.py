@@ -407,6 +407,14 @@ class ConfigVars(object):
 
         return r.ok
 
+    def update(self, other_as_dict):
+        self._h._http_resource(
+            method='PATCH',
+            resource=('apps', self.app.name, 'config-vars'),
+            data=other_as_dict)
+        self.data.update(other_as_dict)
+        return self
+
     def __delitem__(self, key):
         payload = {key: None}
         r = self._h._http_resource(
