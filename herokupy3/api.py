@@ -32,7 +32,8 @@ class HerokuCore(object):
         self._session = session
 
         # We only want JSON back.
-        self._session.headers.update({'Accept': 'application/json'})
+        self._session.headers.update({'Content-Type': 'application/json',
+                                      'Accept': 'application/vnd.heroku+json; version=3'})
 
     def __repr__(self):
         return '<heroku-core at 0x%x>' % (id(self))
@@ -95,7 +96,7 @@ class HerokuCore(object):
             resource = [resource]
 
         url = self._url_for(*resource)
-        r = self._session.request(method, url, params=params, data=data)
+        r = self._session.request(method, url, params=params, json=data)
 
         if r.status_code == 422:
             http_error = HTTPError('%s Client Error: %s' %

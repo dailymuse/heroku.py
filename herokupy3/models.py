@@ -165,8 +165,8 @@ class Addon(AvailableAddon):
 class App(BaseResource):
     """Heroku App."""
 
-    _strs = ['name', 'create_status', 'stack', 'repo_migrate_status']
-    _ints = ['id', 'slug_size', 'repo_size', 'dynos', 'workers']
+    _strs = ['id', 'name', 'create_status', 'stack', 'repo_migrate_status']
+    _ints = ['slug_size', 'repo_size', 'dynos', 'workers']
     _dates = ['created_at',]
     _pks = ['name', 'id']
 
@@ -243,7 +243,7 @@ class App(BaseResource):
         """The envs for this app."""
 
         return self._h._get_resource(
-            resource=('apps', self.name, 'config_vars'),
+            resource=('apps', self.name, 'config-vars'),
             obj=ConfigVars, app=self
         )
 
@@ -393,22 +393,26 @@ class ConfigVars(object):
     def __repr__(self):
         return repr(self.data)
 
+    def __getitem__(self, key):
+        return self.data[key]
+
     def __setitem__(self, key, value):
         # API expects JSON.
-        payload = json.dumps({key: value})
-
+        payload = {key: value}
         r = self._h._http_resource(
-            method='PUT',
-            resource=('apps', self.app.name, 'config_vars'),
+            method='PATCH',
+            resource=('apps', self.app.name, 'config-vars'),
             data=payload
         )
 
         return r.ok
 
     def __delitem__(self, key):
+        payload = {key: None}
         r = self._h._http_resource(
-            method='DELETE',
-            resource=('apps', self.app.name, 'config_vars', key),
+            method='PATCH',
+            resource=('apps', self.app.name, 'config-vars'),
+            data=payload
         )
 
         return r.ok
@@ -427,8 +431,8 @@ class ConfigVars(object):
 class Domain(BaseResource):
     """Heroku Domain."""
 
-    _ints = ['id', 'app_id', ]
-    _strs = ['domain', 'base_domain', 'default']
+    _ints = ['app_id', ]
+    _strs = ['id', 'domain', 'base_domain', 'default']
     _dates = ['created_at', 'updated_at']
     _pks = ['domain', 'id']
 

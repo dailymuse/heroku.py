@@ -1,1 +1,1 @@
-requests>=0.8.6
+requests>=2.11.1
