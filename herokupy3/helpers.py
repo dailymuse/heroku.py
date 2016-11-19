@@ -8,10 +8,10 @@ This module contians the helpers.
 """
 
 from datetime import datetime
+import sys
 
 from dateutil.parser import parse as parse_datetime
 
-import sys
 
 if sys.version_info > (3, 0):
     str = (str, bytes)
@@ -31,14 +31,14 @@ def is_collection(obj):
 
 # from kennethreitz/python-github3
 def to_python(obj,
-    in_dict,
-    str_keys=None,
-    date_keys=None,
-    int_keys=None,
-    object_map=None,
-    bool_keys=None,
-    dict_keys=None,
-    **kwargs):
+              in_dict,
+              str_keys=None,
+              date_keys=None,
+              int_keys=None,
+              object_map=None,
+              bool_keys=None,
+              dict_keys=None,
+              **kwargs):
     """Extends a given object for API Consumption.
 
     :param obj: Object to extend.
@@ -61,7 +61,6 @@ def to_python(obj,
                 out_date = parse_datetime(in_date)
             except TypeError as e:
                 raise e
-                out_date = None
 
             d[in_key] = out_date
 

@@ -7,12 +7,13 @@ heroku.models
 This module contains the models that comprise the Heroku API.
 """
 
+import json
+from urllib.parse import quote
+
+import requests
+
 from .helpers import to_python
 from .structures import *
-import json
-import requests
-import sys
-from urllib.parse import quote
 
 
 class BaseResource(object):
@@ -28,7 +29,7 @@ class BaseResource(object):
     def __init__(self):
         self._bootstrap()
         self._h = None
-        super(BaseResource, self).__init__()
+        super().__init__()
 
     def __repr__(self):
         return "<resource '{0}'>".format(self._id)
@@ -129,7 +130,7 @@ class Addon(AvailableAddon):
         addon_name = self.name
         try:
             addon_name = self.attachment_name
-        except:
+        except Exception:
             pass
         r = self._h._http_resource(
             method='DELETE',
@@ -169,9 +170,6 @@ class App(BaseResource):
     _ints = ['slug_size', 'repo_size', 'dynos', 'workers']
     _dates = ['created_at',]
     _pks = ['name', 'id']
-
-    def __init__(self):
-        super(App, self).__init__()
 
     def __repr__(self):
         return "<app '{0}'>".format(self.name)
@@ -265,7 +263,7 @@ class App(BaseResource):
 
     def rollback(self, release):
         """Rolls back the release to the given version."""
-        r = self._h._http_resource(
+        self._h._http_resource(
             method='POST',
             resource=('apps', self.name, 'releases'),
             data={'rollback': release}
@@ -356,13 +354,13 @@ class Collaborator(BaseResource):
 
     def __init__(self):
         self.app = None
-        super(Collaborator, self).__init__()
+        super().__init__()
 
     def __repr__(self):
         return "<collaborator '{0}'>".format(self.email)
 
     def new(self, email):
-        r = self._h._http_resource(
+        self._h._http_resource(
             method='POST',
             resource=('apps', self.app.name, 'collaborators'),
             data={'collaborator[email]': email}
@@ -388,7 +386,7 @@ class ConfigVars(object):
         self.app = None
         self._h = None
 
-        super(ConfigVars, self).__init__()
+        super().__init__()
 
     def __repr__(self):
         return repr(self.data)
@@ -447,7 +445,7 @@ class Domain(BaseResource):
 
     def __init__(self):
         self.app = None
-        super(Domain, self).__init__()
+        super().__init__()
 
     def __repr__(self):
         return "<domain '{0}'>".format(self.domain)
@@ -461,7 +459,7 @@ class Domain(BaseResource):
         return r.ok
 
     def new(self, name):
-        r = self._h._http_resource(
+        self._h._http_resource(
             method='POST',
             resource=('apps', self.app.name, 'domains'),
             data={'domain_name[domain]': name}
@@ -476,9 +474,6 @@ class Key(BaseResource):
     _strs = ['email', 'contents']
     _pks = ['id',]
 
-    def __init__(self):
-        super(Key, self).__init__()
-
     def __repr__(self):
         return "<key '{0}'>".format(self.id)
 
@@ -489,7 +484,7 @@ class Key(BaseResource):
         return self.contents.split()[-1]
 
     def new(self, key):
-        r = self._h._http_resource(
+        self._h._http_resource(
             method='POST',
             resource=('user', 'keys'),
             data=key
@@ -510,7 +505,7 @@ class Key(BaseResource):
 class Log(BaseResource):
     def __init__(self):
         self.app = None
-        super(Log, self).__init__()
+        super().__init__()
 
 
 class Process(BaseResource):
@@ -528,7 +523,7 @@ class Process(BaseResource):
 
     def __init__(self):
         self.app = None
-        super(Process, self).__init__()
+        super().__init__()
 
     def __repr__(self):
         return "<process '{0}'>".format(self.process)
@@ -612,7 +607,7 @@ class Release(BaseResource):
 
     def __init__(self):
         self.app = None
-        super(Release, self).__init__()
+        super().__init__()
 
     def __repr__(self):
         return "<release '{0}'>".format(self.name)
@@ -623,10 +618,8 @@ class Release(BaseResource):
         return self.app.rollback(self.name)
 
 
-
 class Stack(BaseResource):
-    def __init__(self):
-        super(Stack, self).__init__()
+    pass
 
 
 class Feature(BaseResource):
@@ -636,7 +629,7 @@ class Feature(BaseResource):
 
     def __init__(self):
         self.app = None
-        super(Feature, self).__init__()
+        super().__init__()
 
     def __repr__(self):
         return "<feature '{0}'>".format(self.name)
