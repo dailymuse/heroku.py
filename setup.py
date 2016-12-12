@@ -22,10 +22,10 @@ required = [
 
 setup(
     name='herokupy3',
-    version='0.1.3',
+    version='0.2.0',
     description='Heroku API Wrapper.',
     long_description=open('README.rst').read() + '\n\n' + open('HISTORY.rst').read(),
-    author='Kenneth Reitz',
+    author='Ian Axelrod & Kenneth Reitz',
     author_email='kenneth@heroku.com',
     url='https://github.com/heroku/heroku.py',
     packages=['herokupy3'],
