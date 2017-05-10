@@ -168,7 +168,7 @@ class App(BaseResource):
 
     _strs = ['id', 'name', 'create_status', 'stack', 'repo_migrate_status']
     _ints = ['slug_size', 'repo_size', 'dynos', 'workers']
-    _dates = ['created_at',]
+    _dates = ['created_at', "updated_at"]
     _pks = ['name', 'id']
 
     def __repr__(self):
